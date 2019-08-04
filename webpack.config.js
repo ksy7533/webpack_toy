@@ -9,6 +9,11 @@ module.exports = {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist')
   },
+  devServer: { // 소스가 변경되면 자동으로 build되고 브라우저가 refresh 되게 하기 위해, watch모드는 자동으로 build는 되나 브라우저가 refresh안됨
+    contentBase: path.resolve("./dist"), // 해당 위치에 번들된것을 읽어온다.
+    index: "index.html",
+    port: 9000
+  },
   module: {
     rules: [
       {
