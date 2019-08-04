@@ -1,13 +1,14 @@
 import './style.css';
 import './test.scss';
 import Icon from './asset/iu.jpg';
-import add from './add.js';
+import {add} from './add.js';
+import {multiply} from './multiply.js';
 
-function component() {
+const component = (func) => {
   const element = document.createElement('div');
+  console.log(func)
   
-  const sum = add(1, 2);
-  element.innerHTML = '!!!!!! Hello Webpack!!  '+ sum;
+  element.innerHTML = `value = ${func(1, 2)}`;
   element.classList.add('hello');
 
   const myIcon = new Image();
@@ -18,4 +19,5 @@ function component() {
   return element;
 }
 
-document.body.appendChild(component());
+document.body.appendChild(component(add));
+document.body.appendChild(component(multiply));
