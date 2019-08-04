@@ -1,6 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
   entry: './index.js',
@@ -23,8 +24,15 @@ module.exports = {
       {
         test: /\.css$/,
         use: [
-          'style-loader', // 읽어온 css 내용을 style태그를 만들어 추가한다.
-          'css-loader'  // css file을 읽어온다.
+          {
+            loader: MiniCssExtractPlugin.loader, // 해당하는 css 파일을 읽어서 하나의 css파일로 만들어 추가한다.
+            options: {
+              publicPath: '../',
+              hmr: process.env.NODE_ENV === 'development',
+            },
+          },
+          // 'style-loader', // 읽어온 css 내용을 style태그를 만들어 추가한다.
+          'css-loader'  // css file을 읽어서 js파일에 추가한다.
         ]
       },
       {
@@ -53,12 +61,16 @@ module.exports = {
   },
   plugins: [
     new CleanWebpackPlugin(), // 번들된 파일 삭제후 설치
-    // new webpack.optimize.CommonsChunkPlugin({
-    //   name: 'common' 
-    // })
     new HtmlWebpackPlugin({ // template에 설정해둔 파일을 빌드시에 filename으로 설정해둔곳으로 복사하고 번들된 파일 경로가 설정된 script 태그를 추가한다.
       template: './index.html',
       filename: './index.html'
-    })
+    }),
+    new MiniCssExtractPlugin({
+      // Options similar to the same options in webpackOptions.output
+      // all options are optional
+      filename: '[name].css',
+      chunkFilename: '[id].css',
+      ignoreOrder: false, // Enable to remove warnings about conflicting order
+    }),
   ]
 };
