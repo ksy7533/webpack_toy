@@ -4,8 +4,8 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
-  entry: './index.js',
-  devtool: 'inline-source-map',
+  entry: ['@babel/polyfill', './index.js'], // ArrayFrom, Object.assign, Promise는 balbel로 트랜스파일링이 안되어 polyfill을 따로 추가해야한다. 설치하는 경우 실제 개발환경에서 사용해야하므로 --save-dev로 설치 하지 않는다.
+  devtool: 'inline-source-map', // 콘솔창에서 해당 에러가 어디서 나는지 정확하게 파악하기 위해 설정
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist')
